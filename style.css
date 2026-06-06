@@ -13,19 +13,28 @@ body {
     overflow-x: hidden;
     padding-bottom: 50px;
 }
-
-/* Fundo com imagem translúcida */
+/*
+   IMAGEM DE FUNDO DO SITE CENTRALIZADA
+========================================== */
 body::after {
     content: '';
-    position: fixed;
+    position: absolute; /* Mantém o fundo fixo enquanto rola a página */
     top: 0;       
     left: 0;           
     width: 100%;
     height: 100%;
-    background: url("https://i.pinimg.com/originals/51/43/52/514352b1bd85601df8f9f01762e22f25.png") no-repeat center center;
-    background-size: cover;
-    opacity: 0.15;
-    z-index: -1;
+    background-image: url('fotos/foto_\(16\).jpeg'); 
+
+    /* PROPRIEDADES DE CENTRALIZAÇÃO PERFEITA: */
+    background-repeat: repeat-y;
+    background-position: center top; /* Centraliza tanto na vertical quanto na horizontal */
+    background-size: contain;             /* Faz a imagem cobrir todo o ecrã adaptando-se a PC e Telemóvel */
+    
+    /* OPACIDADE (0.15 = 15% de visibilidade) */
+    /* Deixamos a imagem suave para os textos brancos e fotos não sumirem no fundo */
+    opacity: 0.10; 
+    
+    z-index: -1; /* Garante que a imagem fica atrás de TUDO no site */
 }
 
 /* Container centralizador padrão */
@@ -71,28 +80,94 @@ h2 {
     transform: scale(1.05);
 }
 
-/* Galeria Sanfona */
-.gallery {
+/* ==========================================
+   CARROSSEL COM 3 IMAGENS E EFEITO ZOOM
+========================================== */
+.carousel-container {
+    position: relative;
+    max-width: 1000px; /* Aumentamos para caber as 3 fotos bem confortáveis */
+    margin: 40px auto;
     display: flex;
-    height: 60vh;
-    padding: 20px;
-    gap: 10px;
-    max-width: 1200px;
-    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
 }
 
-.gallery-image {
-    flex: 1;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 12px;
-    transition: all .7s cubic-bezier(.25, .4, .45, 1.4);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+.carousel-wrapper {
+    width: 100%;
+    height: 600px; /* Altura ideal para o grupo de fotos */
+    overflow: hidden;
+    padding: 10px 0; /* Espaço para o zoom não cortar o topo da foto */
 }
 
-.gallery-image:hover {
-    flex: 5;
+.carousel-track {
+    display: flex;
+    gap: 10px; /* Espaço entre as fotos para não ficarem grudadas */
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Transição mais fluida */
+}
+
+.carousel-track img {
+    /* Cálculo matemático para mostrar exatamente 3 fotos descontando os espaços (gap) */
+    width: calc((100% - 10px) / 4); 
+    height: 100% - 20px;
+    object-fit: cover;
+    border-radius: 15px;
+    flex-shrink: 0;
+    
+    /* Efeito inicial nas fotos (efeito de "afastado" e mais escurinho) */
+    transform: scale(0.9); 
+    opacity: 0.4;
+    filter: grayscale(0.3);
+    transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* CLASSE MÁGICA: Aplica o ZOOM (+) e acende a foto que estiver no centro */
+.carousel-track img.active {
+    transform: scale(1.05); /* Dá o zoom na foto principal */
+    opacity: 1;             /* Deixa ela 100% visível */
+    filter: grayscale(0);   /* Tira qualquer efeito cinza */
+    box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6); /* Brilho romântico em volta */
+    z-index: 2;
+}
+
+/* Estilo das Setas */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(128, 15, 47, 0.8);
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    transition: background 0.3s, transform 0.2s;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.carousel-btn:hover {
+    background-color: #ff4d6d;
+}
+
+.prev-btn { left: -30px; }
+.next-btn { right: -30px; }
+
+/* Adaptação para Celular (Mostra apenas 1 foto por vez para não esmagar) */
+@media (max-width: 768px) {
+    .carousel-wrapper {
+        height: 350px;
+    }
+    .carousel-track img {
+        width: 100%; /* No celular vira 1 por vez automaticamente */
+    }
+    .carousel-track img.active {
+        transform: scale(1); /* Remove o zoom no celular para não cortar as bordas */
+    }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
 }
 
 /* Texto Longo */
@@ -106,35 +181,47 @@ h2 {
     padding: 0 20px;
 }
 
-/* Grid de Cartões */
+/* ==========================================
+   GRID DE CARTÕES MAIORES COM EFEITO ZOOM
+========================================== */
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    /* Mudamos de 300px para 350px para deixar os cartões maiores */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 2fr)); 
+    gap: 32px; /* Aumentamos o espaço entre os cartões */
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 50px auto;
     padding: 0 20px;
 }
 
 .card {
     width: 100%;
-    aspect-ratio: 1.5;
-    border-radius: 12px;
+    aspect-ratio: 1.0; /* Ajuste sutil na proporção para a foto ficar maior */
+    border-radius: 15px; /* Bordas mais arredondadas combinando com o carrossel */
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    
+    /* Estado inicial do cartão: um pouco opaco e sem zoom */
+    opacity: 0.85;
+    transform: scale(0.96);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                opacity 0.4s ease, 
+                box-shadow 0.4s ease;
 }
 
 .card .image-box {
     width: 100%;
     height: 100%;
 }
-
 .card .image-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.5s ease-in-out;
+    width: 100%;         /* Força a imagem a ter a largura total do cartão */
+    height: 100%;        /* Força a imagem a ter a altura total do cartão */
+    
+    /* GARANTE QUE A IMAGEM NÃO FICA "CHATA" OU ESTICADA: */
+    object-fit: cover;   /* Enquadra a foto perfeitamente no retângulo do cartão */
+    object-position: center; /* Foca no topo da foto (ótimo se os rostos estiverem na parte de cima) */
+    transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
 }
 
 .card .content {
@@ -146,10 +233,11 @@ h2 {
     color: #ffffff;
     z-index: 2;
     opacity: 0;
-    width: 80%;
-    transition: opacity 0.3s ease-in-out;
+    width: 85%;
+    transition: opacity 0.4s ease-in-out;
 }
 
+/* Borda interna romântica */
 .card::after {
     content: "";
     position: absolute;
@@ -161,28 +249,56 @@ h2 {
     transition: 0.4s ease-in-out;
 }
 
+/* ==========================================
+   EFEITO HOVER (QUANDO PASSA O MOUSE) 
+========================================== */
+.card:hover {
+    opacity: 1; /* Fica 100% aceso */
+    transform: scale(1.04) translateY(-5px); /* Efeito Zoom (+) e sobe de leve */
+    box-shadow: 0 12px 30px rgba(255, 77, 109, 0.3); /* Brilho rosa no fundo */
+}
+
+/* Dá um segundo zoom interno apenas na foto */
 .card:hover img {
-    filter: grayscale(0.5) brightness(0.2);
+    transform: scale(1.1);
+    filter: grayscale(0.5) brightness(0.2); /* Escurece o fundo para o texto aparecer */
 }
 
 .card:hover .content {
-    opacity: 1;
+    opacity: 1; /* Revela o texto de forma suave */
 }
 
 .card:hover::after {
     opacity: 1;
-    inset: 15px;
+    inset: 15px; /* Desenha a bordinha rosa interna */
 }
 
-/* Modal/Janela do Coração */
+/* Ajuste para telas pequenas (Celular) */
+@media (max-width: 768px) {
+    .card-container {
+        grid-template-columns: 1fr; /* No celular fica um cartão embaixo do outro */
+        gap: 20px;
+    }
+    .card {
+        transform: scale(1); /* Desativa o zoom padrão no celular para não bugar o toque */
+        opacity: 1;
+    }
+    .card:hover {
+        transform: translateY(-3px); /* No celular apenas sobe de leve ao tocar */
+    }
+}
+
+/* ==========================================
+   VÍDEO EM FORMATO DE CORAÇÃO (POP-UP)
+========================================== */
 .janela {
     width: 90%;
-    max-width: 500px;
-    height: 350px;
+    max-width: 550px;
+    height: 480px; /* Aumentamos um pouco a altura para acomodar o vídeo grande */
     background-color: #0b0f12;
     border: 2px solid #850202;
     border-radius: 15px;
-    box-shadow: 0px 0px 25px rgba(255, 77, 109, 0.3);
+    box-shadow: 0px 0px 30px rgba(255, 77, 109, 0.4);
     position: fixed;
     top: 50%;
     left: 50%;
@@ -191,7 +307,7 @@ h2 {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     z-index: 100;
 }
 
@@ -199,58 +315,64 @@ h2 {
     background: #ff4d6d;
     border: none;
     color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    border-radius: 50px;
     cursor: pointer;
-    z-index: 10;
+    font-family: inherit;
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
-/* Animação do Coração */
+.janela button:hover {
+    background-color: #ff758f;
+}
+
 .coracao-container {
     flex-grow: 1;
-    position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+}
+.legenda{
+    margin-bottom: 5px;
+    margin-top: 5px;
+    align-items: center;
+    
+}
+/* O VÍDEO FORMATADO EM CORAÇÃO COM EFEITO DE PULSAR */
+#videoSurpresa {
+    width: 400px;
+    height: 400px;
+    object-fit: cover; /* Garante que o vídeo se adapte e preencha o formato */
+    border-radius: 5px; /* Um leve arredondado caso queira testar sem o formato primeiro */
+    
+    /* Forma geométrica ultra compatível para formato de coração */
+    clip-path: polygon(50% 15%, 65% 0%, 85% 0%, 100% 15%, 100% 40%, 50% 95%, 0% 40%, 0% 15%, 15% 0%, 35% 0%);
+    
+    /* Removemos a propriedade 'scale' antiga que causava o fundo preto em algumas telas */
+    transform: scale(1); 
+    animation: pulsarVideo 0.8s infinite alternate ease-in-out;
 }
 
-.coracao {
-    width: 100px;
-    height: 100px;
-    position: relative;
-    background-color: #ff4d6d;
-    transform: rotate(-45deg);
-    animation: pulsar 0.6s infinite alternate;
+@keyframes pulsarVideo {
+    0% {
+        transform: scale(0.96);
+    }
+    100% {
+        transform: scale(1.04);
+    }
 }
 
-.coracao:before,
-.coracao:after {
-    content: "";
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: #ff4d6d;
-    border-radius: 50%;
-}
-
-.coracao:before {
-    top: -50px;
-    left: 0;
-}
-
-.coracao:after {
-    left: 50px;
-    top: 0;
-}
-
-@keyframes pulsar {
-    0% { transform: rotate(-45deg) scale(0.8); }
-    100% { transform: rotate(-45deg) scale(1); }
-}
-
-footer {
-    margin-top: 50px;
-    font-size: 1rem;
-    color: #a0aab0;
+/* Ajuste rápido para o vídeo não ficar gigante em celulares pequenos */
+@media (max-width: 480px) {
+    .janela {
+        height: 400px;
+    }
+    #videoSurpresa {
+        width: 250px;
+        height: 250px;
+        scale: 10.4; /* Ajuste do tamanho do recorte para telas pequenas */
+    }
 }

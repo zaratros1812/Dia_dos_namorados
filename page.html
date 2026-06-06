@@ -15,15 +15,34 @@
         <h2>Cada detalhe do seu lado faz a vida ter mais cor. Te amo!</h2>
         
         <button class="botao-playlist" onclick="abrirJanela()">🎵 Nossa Trilha Sonora</button>
-    </div>
 
-    <div class="gallery">
-        <div class="gallery-image" style="background-image: url('Joyce/page/fotos/foto (1).jpeg')"></div>
-        <div class="gallery-image" style="background-image: url('https://images.pexels.com/photos/984934/pexels-photo-984934.jpeg')"></div>
-        <div class="gallery-image" style="background-image: url('https://bibliotecadopregador.com.br/wp-content/uploads/2023/05/casal-feliz.jpg')"></div>
-        <div class="gallery-image" style="background-image: url('https://images.pexels.com/photos/4014884/pexels-photo-4014884.jpeg')"></div>
-    </div>
+    <div class="carousel-container">
+        <button class="carousel-btn prev-btn" onclick="mudarSlide(-1)">&#10094;</button>
+        
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="track">
+                <img src="fotos/foto_(1).jpeg" >
+                <img src="fotos/foto_(2).jpeg" >
+                <img src="fotos/foto_(3).jpeg" >
+                <img src="fotos/foto_(4).jpeg" >
+                <img src="fotos/foto_(5).jpeg" >
+                <img src="fotos/foto_(6).jpeg" >
+                <img src="fotos/foto_(7).jpeg" >
+                <img src="fotos/foto_(8).jpeg" >
+                <img src="fotos/foto_(9).jpeg" >
+                <img src="fotos/foto_(10).jpeg" >
+                <img src="fotos/foto_(11).jpeg" >
+                <img src="fotos/foto_(12).jpeg" >
+                <img src="fotos/foto_(13).jpeg" >
+                <img src="fotos/foto_(14).jpeg" >
+                <img src="fotos/foto_(15).jpeg" >
+                <img src="fotos/foto_(16).jpeg" >
+                <img src="fotos/foto_(17).jpeg" >
+            </div>
+        </div>
 
+        <button class="carousel-btn next-btn" onclick="mudarSlide(1)">&#10095;</button>
+    </div>
     <div class="container">
         <p class="texto-romantico">
             Desde o momento em que você entrou na minha vida , tudo mudou para melhor. Este espaço é apenas uma pequena homenagem para lembrar o quanto nossa história é especial. Cada momento ao seu lado é único, e essas fotos guardam apenas uma faísca de tudo o que ainda vamos viver juntos...
@@ -33,16 +52,16 @@
     <div class="card-container">
         <div class="card">
             <div class="image-box">
-                <img src="Joyce/page/fotos/foto (1).jpeg">
+                <img src="fotos/foto_(14).jpeg">
             </div>
             <div class="content">
-                <h3>O Início 🗓️</h3>
-                <p>O dia em que minha vida ganhou um novo sentido.</p>
+                <h3>O Começo 🗓️</h3>
+                <p>Um dos nossos primeiros momentos juntos.</p>
             </div>
         </div>
         <div class="card">
             <div class="image-box">
-                <img src="https://images.pexels.com/photos/984934/pexels-photo-984934.jpeg">
+                <img src="fotos/foto_(8).jpeg">
             </div>
             <div class="content">
                 <h3>Sorrisos 😄</h3>
@@ -51,7 +70,7 @@
         </div>
         <div class="card">
             <div class="image-box">
-                <img src="https://bibliotecadopregador.com.br/wp-content/uploads/2023/05/casal-feliz.jpg">
+                <img src="fotos/foto_(16).jpeg">
             </div>
             <div class="content">
                 <h3>Futuro 🏡</h3>
@@ -68,10 +87,12 @@
         </footer>
     </div>
     
+<!-- Pop-up do Coração com Vídeo Embutido -->
     <div id="janela" class="janela">
         <div class="coracao-container">
-            <div class="coracao"></div>
+            <video id="videoSurpresa" src="fotos/vde.mp4" loop playsinline></video>
         </div>
+        <p class="legenda"><br> Eu te amo, minha vida!</p><br></p>
         <button onclick="fecharJanela()">Fechar</button>
     </div>
 
